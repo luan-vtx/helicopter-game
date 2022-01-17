@@ -27,15 +27,6 @@ function start() {
 	$(document).keyup(function(e){
 		jogo.pressionou[e.which] = false;
 	});
-	
-	//Game Loop
-	jogo.timer = setInterval(loop,30);
-
-	function loop() {
-		movefundo();
-		movejogador();
-		moveinimigo1();
-	}
 
 	//Função que movimenta o fundo do jogo
 	function movefundo() {
@@ -78,5 +69,24 @@ function start() {
 			$("#inimigo1").css("left",694);
 			$("#inimigo1").css("top", posicaoYDoInimigo1);
 		}
+	}
+
+	function moveinimigo2() {
+		posicaoXdoInimigo2 = parseInt($("#inimigo2").css("left"));
+		$("#inimigo2").css("left", posicaoXdoInimigo2 - 3);
+				
+		if (posicaoXdoInimigo2 <= 0) {
+			$("#inimigo2").css("left",775);		
+		}
+	}
+
+	//Game Loop
+	jogo.timer = setInterval(loop, 30);
+
+	function loop() {
+		movefundo();
+		movejogador();
+		moveinimigo1();
+		moveinimigo2();
 	}
 } // Fim da função start
