@@ -8,12 +8,14 @@ function start() {
 	//Principais variáveis do jogo
 	let jogo = {};
 
-	// os valores de cada chave desse objeto são os respectivos keycodes de cada uma das letras
 	let TECLA = {
 		W: 87,
 		S: 83,
 		D: 68
 	};
+
+	let velocidadeInimigo1 = 5;
+	let posicaoYDoInimigo1 = parseInt(Math.random() * 334);
 
 	jogo.pressionou = [];
 
@@ -32,6 +34,7 @@ function start() {
 	function loop() {
 		movefundo();
 		movejogador();
+		moveinimigo1();
 	}
 
 	//Função que movimenta o fundo do jogo
@@ -62,6 +65,18 @@ function start() {
 		
 		if (jogo.pressionou[TECLA.D]) {
 			//Chama função Disparo	
+		}
+	}
+
+	function moveinimigo1() {
+		posicaoXdoInimigo1 = parseInt($("#inimigo1").css("left"));
+		$("#inimigo1").css("left", posicaoXdoInimigo1 - velocidadeInimigo1);
+		$("#inimigo1").css("top", posicaoYDoInimigo1);
+			
+		if (posicaoXdoInimigo1 <= 0) {
+			posicaoYDoInimigo1 = parseInt(Math.random() * 334);
+			$("#inimigo1").css("left",694);
+			$("#inimigo1").css("top", posicaoYDoInimigo1);
 		}
 	}
 } // Fim da função start
