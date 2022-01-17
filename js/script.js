@@ -80,6 +80,15 @@ function start() {
 		}
 	}
 
+	function moveamigo() {
+		posicaoXdoAmigo = parseInt($("#amigo").css("left"));
+		$("#amigo").css("left",posicaoXdoAmigo + 1);
+					
+		if (posicaoXdoAmigo > 906) {
+			$("#amigo").css("left", 0);	
+		}
+	}
+
 	//Game Loop
 	jogo.timer = setInterval(loop, 30);
 
@@ -88,5 +97,6 @@ function start() {
 		movejogador();
 		moveinimigo1();
 		moveinimigo2();
+		moveamigo();
 	}
 } // Fim da função start
