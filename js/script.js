@@ -157,6 +157,35 @@ function start() {
 			tempoExplosao2 = null;
 		}
 	}
+
+	// funcao que realiza o efeito de explosão quando o amigo colide com o inimigo 2 (o caminhão)
+	function explosao3(amigoX, amigoY) {
+		$("#fundoGame").append("<div id='explosao3' class='anima4'></div");
+		$("#explosao3").css("top",amigoY);
+		$("#explosao3").css("left",amigoX);
+
+		let tempoExplosao3 = window.setInterval(resetaExplosao3, 1000);
+
+		function resetaExplosao3() {
+			$("#explosao3").remove();
+			window.clearInterval(tempoExplosao3);
+			tempoExplosao3 = null;
+		}
+	}
+
+	// funcão que reposiciona o inimigo 2 quando ele colide com o jogador
+	function reposicionaInimigo2() {
+		var tempoColisao4 = window.setInterval(reposiciona4, 5000);
+	
+		function reposiciona4() {
+			window.clearInterval(tempoColisao4);
+			tempoColisao4 = null;
+				
+			if (fimdejogo === false) {
+				$("#fundoGame").append("<div id=inimigo2></div");
+			}
+		}	
+	}
 	
 	// função que reposiciona o amigo quando o jogo ainda não foi finalizado
 	function reposicionaAmigo() {
@@ -172,6 +201,7 @@ function start() {
 		}
 	}
 
+	// função responsável por gerenciar as possiveis colisões do jogo
 	function colisao() {
 		let colisao1 = ($("#jogador").collision($("#inimigo1")));
 		let colisao2 = ($("#jogador").collision($("#inimigo2")));
@@ -180,7 +210,8 @@ function start() {
 		let colisao5 = ($("#jogador").collision($("#amigo")));
 		let colisao6 = ($("#inimigo2").collision($("#amigo")));
 		
-		// verifica colisão com o inimigo 1
+		// verifica colisão do jogador com o inimigo 1
+		// caso haja colisão, a explosão ira ocorrer e o inimigo 1 será reposicionado na inicio da tela
 		if (colisao1.length > 0) {	
 			inimigo1X = parseInt($("#inimigo1").css("left"));
 			inimigo1Y = parseInt($("#inimigo1").css("top"));
@@ -190,21 +221,8 @@ function start() {
 			$("#inimigo1").css("top",posicaoY);
 		}
 
-		// funcão que reposiciona o inimigo 2 quando ele colide com o jogador
-		function reposicionaInimigo2() {
-			var tempoColisao4 = window.setInterval(reposiciona4, 5000);
-		
-			function reposiciona4() {
-				window.clearInterval(tempoColisao4);
-				tempoColisao4 = null;
-					
-				if (fimdejogo === false) {
-					$("#fundoGame").append("<div id=inimigo2></div");
-				}
-			}	
-		}
-
 		// verifica colisão com o inimigo 2
+		// caso haja colisão, a explosão ira ocorrer e o inimigo 2 será reposicionado na inicio da tela
     if (colisao2.length > 0) {
 			inimigo2X = parseInt($("#inimigo2").css("left"));
 			inimigo2Y = parseInt($("#inimigo2").css("top"));
@@ -214,6 +232,7 @@ function start() {
 		}
 
 		// verifica se houve colisão entre o disparo do jogador e o inimigo 1
+		// caso haja colisão, a explosão ira ocorrer e o inimigo 1 será reposicionado na inicio da tela
 		if (colisao3.length > 0) {
 			inimigo1X = parseInt($("#inimigo1").css("left"));
 			inimigo1Y = parseInt($("#inimigo1").css("top"));
@@ -227,14 +246,14 @@ function start() {
 		}
 
 		// verifica se houve colisão entre o disparo do jogador e o inimigo 2
+		// caso haja colisão, a explosão ira ocorrer e o inimigo 2 será reposicionado na inicio da tela
 		if (colisao4.length > 0) {
 			inimigo2X = parseInt($("#inimigo2").css("left"));
 			inimigo2Y = parseInt($("#inimigo2").css("top"));
 			$("#inimigo2").remove();
 		
-			explosao2(inimigo2X,inimigo2Y);
+			explosao2(inimigo2X, inimigo2Y);
 			$("#disparo").css("left",950);
-			
 			reposicionaInimigo2();
 		}
 
@@ -242,6 +261,16 @@ function start() {
 		if (colisao5.length > 0) {
 			reposicionaAmigo();
 			$("#amigo").remove();
+		}
+
+		// verifica se houve colisão do amigo com o inimigo 2
+		if (colisao6.length > 0) {
+			amigoX = parseInt($("#amigo").css("left"));
+			amigoY = parseInt($("#amigo").css("top"));
+
+			explosao3(amigoX, amigoY);
+			$("#amigo").remove();	
+			reposicionaAmigo();
 		}
 	}
 
