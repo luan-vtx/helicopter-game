@@ -122,6 +122,7 @@ function start() {
 		}
 	}
 
+	// funcao que realiza o efeito de explosão quando o jogador colide com o inimigo 1 (o helicoptero)
 	function explosao1(inimigo1X,inimigo1Y) {
 		$("#fundoGame").append("<div id='explosao1'></div");
 		$("#explosao1").css("background-image", "url(imgs/explosao.png)");
@@ -135,6 +136,25 @@ function start() {
 			div.remove();
 			window.clearInterval(tempoExplosao);
 			tempoExplosao = null;
+		}
+	}
+
+	// funcao que realiza o efeito de explosão quando o jogador colide com o inimigo 2 (o caminhão)
+	function explosao2(inimigo2X,inimigo2Y) {
+		$("#fundoGame").append("<div id='explosao2'></div");
+		$("#explosao2").css("background-image", "url(imgs/explosao.png)");
+
+		let div2=$("#explosao2");
+		div2.css("top", inimigo2Y);
+		div2.css("left", inimigo2X);
+		div2.animate({ width: 200, opacity: 0 }, "slow");
+		
+		let tempoExplosao2 = window.setInterval(removeExplosao2, 1000);
+		
+		function removeExplosao2() {
+			div2.remove();
+			window.clearInterval(tempoExplosao2);
+			tempoExplosao2 = null;
 		}
 	}
 
