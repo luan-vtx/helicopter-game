@@ -211,6 +211,18 @@ function start() {
 			$("#inimigo1").css("left",694);
 			$("#inimigo1").css("top",posicaoY);
 		}
+
+		// verifica se houve colisão entre o disparo do jogador e o inimigo 2
+		if (colisao4.length > 0) {
+			inimigo2X = parseInt($("#inimigo2").css("left"));
+			inimigo2Y = parseInt($("#inimigo2").css("top"));
+			$("#inimigo2").remove();
+		
+			explosao2(inimigo2X,inimigo2Y);
+			$("#disparo").css("left",950);
+			
+			reposicionaInimigo2();
+		}
 	}
 
 	//Game Loop
