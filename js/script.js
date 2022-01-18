@@ -1,3 +1,4 @@
+// quando o jogo é iniciado a tela inicial é removida e são adicionados as divs do jogador, do amigo e dos inimigos
 function start() {
 	$("#inicio").hide();
 	$("#fundoGame").append("<div id='jogador' class='anima1'></div>");
@@ -16,9 +17,7 @@ function start() {
 
 	let velocidadeInimigo1 = 5;
 	let posicaoYDoInimigo1 = parseInt(Math.random() * 334);
-
 	let podeAtirar = true;
-
 	let fimdejogo = false;
 
 	jogo.pressionou = [];
@@ -32,18 +31,19 @@ function start() {
 		jogo.pressionou[e.which] = false;
 	});
 
-	//Função que movimenta o fundo do jogo
+	//Função que movimenta a imagem de fundo do jogo
 	function movefundo() {
 		esquerda = parseInt($("#fundoGame").css("background-position"));
 		$("#fundoGame").css("background-position", esquerda - 5);
 	}
 
-	// função que movimenta o jogador
+	// função que movimenta o jogador para cima e para baixo na tela
 	function movejogador() {
 		if (jogo.pressionou[TECLA.W]) {
 			var topo = parseInt($("#jogador").css("top"));
 			$("#jogador").css("top", topo - 10);
 
+			// esse condicional impede o jogador de sair da tela do jogo
 			if (topo <= 0) {
 				$("#jogador").css("top", topo + 10);
 			}
@@ -53,22 +53,25 @@ function start() {
 			var topo = parseInt($("#jogador").css("top"));
 			$("#jogador").css("top", topo + 10);	
 
+			// esse condicional impede o jogador de sair da tela do jogo
 			if (topo >= 430) {	
 				$("#jogador").css("top", topo - 10);
 			}
 		}
 		
 		if (jogo.pressionou[TECLA.D]) {
-			//Chama função Disparo
+			// chama a função disparo
 			disparo();
 		}
 	}
 
+	// função responsável por movimentar o inimigo 1 para a esquerda
 	function moveinimigo1() {
 		posicaoXdoInimigo1 = parseInt($("#inimigo1").css("left"));
 		$("#inimigo1").css("left", posicaoXdoInimigo1 - velocidadeInimigo1);
 		$("#inimigo1").css("top", posicaoYDoInimigo1);
-			
+		
+		// se o inimigo chegar no final da tela do jogo, esse condicional irá realocá-lo no inicio da tela
 		if (posicaoXdoInimigo1 <= 0) {
 			posicaoYDoInimigo1 = parseInt(Math.random() * 334);
 			$("#inimigo1").css("left",694);
@@ -76,24 +79,28 @@ function start() {
 		}
 	}
 
+	// função responsável por movimentar o inimigo 2 para a direita
 	function moveinimigo2() {
 		posicaoXdoInimigo2 = parseInt($("#inimigo2").css("left"));
 		$("#inimigo2").css("left", posicaoXdoInimigo2 - 3);
-				
+		
+		// reposiciona o inimigo 2 quando ele chegar no limite da tela
 		if (posicaoXdoInimigo2 <= 0) {
 			$("#inimigo2").css("left",775);		
 		}
 	}
 
+	// função que realiza a movimentação do amigo
 	function moveamigo() {
 		posicaoXdoAmigo = parseInt($("#amigo").css("left"));
-		$("#amigo").css("left",posicaoXdoAmigo + 1);
+		$("#amigo").css("left", posicaoXdoAmigo + 1);
 					
 		if (posicaoXdoAmigo > 906) {
 			$("#amigo").css("left", 0);	
 		}
 	}
 
+	// função que realiza o disparo do jogador
 	function disparo() {
 		if (podeAtirar === true) {
 			podeAtirar = false;
@@ -108,16 +115,18 @@ function start() {
 			
 			var tempoDisparo = window.setInterval(executaDisparo, 30);
 		}
-	 
+
+		// função que posiciona o tiro na frente do jogador
 		function executaDisparo() {
 			posicaoXDoTiro = parseInt($("#disparo").css("left"));
-			$("#disparo").css("left",posicaoXDoTiro + 15); 
-	
+			$("#disparo").css("left", posicaoXDoTiro + 15);
+
+			// condicional que controla quando o jogador pode atira novamente (apenas quando o tiro anterior tiver saido da tela)
 			if (posicaoXDoTiro > 900) {
 				window.clearInterval(tempoDisparo);
-				tempoDisparo=null;
+				tempoDisparo = null;
 				$("#disparo").remove();
-				podeAtirar=true;	
+				podeAtirar = true;	
 			}
 		}
 	}
@@ -130,7 +139,7 @@ function start() {
 		div.css("top", inimigo1Y);
 		div.css("left", inimigo1X);
 		div.animate({width:200, opacity:0}, "slow");
-		var tempoExplosao = window.setInterval(removeExplosao, 1000);
+		let tempoExplosao = window.setInterval(removeExplosao, 1000);
 	
 		function removeExplosao() {
 			div.remove();
@@ -264,6 +273,7 @@ function start() {
 		}
 
 		// verifica se houve colisão do amigo com o inimigo 2
+		// se houver colisão, o amigo explode e dps de alguns segundos outro amigo é reposicionado na tela
 		if (colisao6.length > 0) {
 			amigoX = parseInt($("#amigo").css("left"));
 			amigoY = parseInt($("#amigo").css("top"));
@@ -274,7 +284,8 @@ function start() {
 		}
 	}
 
-	//Game Loop
+	// game Loop
+	// esse timer irá executar as função que movimentam o jogo a cada 30 milissegundos
 	jogo.timer = setInterval(loop, 30);
 
 	function loop() {
@@ -285,4 +296,4 @@ function start() {
 		moveamigo();
 		colisao();
 	}
-} // Fim da função start
+} // fim da função start
