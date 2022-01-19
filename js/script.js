@@ -81,8 +81,8 @@ function start() {
 		
 		// se o inimigo chegar no final da tela do jogo, esse condicional irá realocá-lo no inicio da tela
 		if (posicaoXdoInimigo1 <= 0) {
-			posicaoYDoInimigo1 = parseInt(Math.random() * 334);
-			$("#inimigo1").css("left",694);
+			posicaoYDoInimigo1 = parseInt(Math.random() * 350);
+			$("#inimigo1").css("left", 694);
 			$("#inimigo1").css("top", posicaoYDoInimigo1);
 		}
 	}
@@ -234,9 +234,10 @@ function start() {
 			inimigo1X = parseInt($("#inimigo1").css("left"));
 			inimigo1Y = parseInt($("#inimigo1").css("top"));
 			explosao1(inimigo1X, inimigo1Y);
-			posicaoY = parseInt(Math.random() * 334);
-			$("#inimigo1").css("left",694);
-			$("#inimigo1").css("top",posicaoY);
+
+			posicaoYDoInimigo1 = parseInt(Math.random() * 350);
+			$("#inimigo1").css("left", 694);
+			$("#inimigo1").css("top", posicaoYDoInimigo1);
 		}
 
 		// verifica colisão com o inimigo 2
@@ -259,11 +260,17 @@ function start() {
 			inimigo1Y = parseInt($("#inimigo1").css("top"));
 				
 			explosao1(inimigo1X,inimigo1Y);
-			$("#disparo").css("left",950);
-				
-			const novaPosicaoY = parseInt(Math.random() * 334);
-			$("#inimigo1").css("left",694);
-			$("#inimigo1").css("top", novaPosicaoY);
+			$("#disparo").css("left", 950);
+
+			// if (true) {
+			// 	posicaoYDoInimigo1 = parseInt(Math.random() * 350);
+			// 	$("#inimigo1").css("left", 694);
+			// 	$("#inimigo1").css("top", posicaoYDoInimigo1);
+			// }
+
+			posicaoYDoInimigo1 = parseInt(Math.random() * 350);
+			$("#inimigo1").css("left", 694);
+			$("#inimigo1").css("top", posicaoYDoInimigo1);
 		}
 
 		// verifica se houve colisão entre o disparo do jogador e o inimigo 2
