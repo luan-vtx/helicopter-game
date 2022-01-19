@@ -5,6 +5,7 @@ function start() {
 	$("#fundoGame").append("<div id='inimigo1' class='anima2'></div>");
 	$("#fundoGame").append("<div id='inimigo2'></div>");
 	$("#fundoGame").append("<div id='amigo' class='anima3'></div>");
+	$("#fundoGame").append("<div id='placar'></div>");
 
 	//Principais variáveis do jogo
 	let jogo = {};
@@ -19,6 +20,10 @@ function start() {
 	let posicaoYDoInimigo1 = parseInt(Math.random() * 334);
 	let podeAtirar = true;
 	let fimdejogo = false;
+
+	let pontosDoJogador = 0;
+	let amigosSalvos = 0;
+	let amigosPerdidos = 0;
 
 	jogo.pressionou = [];
 
@@ -243,6 +248,7 @@ function start() {
 		// verifica se houve colisão entre o disparo do jogador e o inimigo 1
 		// caso haja colisão, a explosão ira ocorrer e o inimigo 1 será reposicionado na inicio da tela
 		if (colisao3.length > 0) {
+			pontosDoJogador += 100;
 			inimigo1X = parseInt($("#inimigo1").css("left"));
 			inimigo1Y = parseInt($("#inimigo1").css("top"));
 				
@@ -257,6 +263,7 @@ function start() {
 		// verifica se houve colisão entre o disparo do jogador e o inimigo 2
 		// caso haja colisão, a explosão ira ocorrer e o inimigo 2 será reposicionado na inicio da tela
 		if (colisao4.length > 0) {
+			pontosDoJogador += 50;
 			inimigo2X = parseInt($("#inimigo2").css("left"));
 			inimigo2Y = parseInt($("#inimigo2").css("top"));
 			$("#inimigo2").remove();
@@ -268,6 +275,7 @@ function start() {
 
 		// verifica se houve colisao do jogador com o amigo e o "resgata" (remove-o da tela)
 		if (colisao5.length > 0) {
+			amigosSalvos += 1;
 			reposicionaAmigo();
 			$("#amigo").remove();
 		}
@@ -275,6 +283,7 @@ function start() {
 		// verifica se houve colisão do amigo com o inimigo 2
 		// se houver colisão, o amigo explode e dps de alguns segundos outro amigo é reposicionado na tela
 		if (colisao6.length > 0) {
+			amigosPerdidos += 1;
 			amigoX = parseInt($("#amigo").css("left"));
 			amigoY = parseInt($("#amigo").css("top"));
 
@@ -283,6 +292,10 @@ function start() {
 			reposicionaAmigo();
 		}
 	}
+
+	function placar() {
+		$("#placar").html("<h2> Pontos: " + pontosDoJogador + " Salvos: " + amigosSalvos + " Perdidos: " + amigosPerdidos + "</h2>");
+	} 
 
 	// game Loop
 	// esse timer irá executar as função que movimentam o jogo a cada 30 milissegundos
@@ -295,5 +308,6 @@ function start() {
 		moveinimigo2();
 		moveamigo();
 		colisao();
+		placar();
 	}
 } // fim da função start
