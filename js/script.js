@@ -6,6 +6,7 @@ function start() {
 	$("#fundoGame").append("<div id='inimigo2'></div>");
 	$("#fundoGame").append("<div id='amigo' class='anima3'></div>");
 	$("#fundoGame").append("<div id='placar'></div>");
+	$("#fundoGame").append("<div id='energia'></div>");
 
 	//Principais variáveis do jogo
 	let jogo = {};
@@ -24,6 +25,8 @@ function start() {
 	let pontosDoJogador = 0;
 	let amigosSalvos = 0;
 	let amigosPerdidos = 0;
+
+	let energiaAtual = 3;
 
 	jogo.pressionou = [];
 
@@ -226,7 +229,8 @@ function start() {
 		
 		// verifica colisão do jogador com o inimigo 1
 		// caso haja colisão, a explosão ira ocorrer e o inimigo 1 será reposicionado na inicio da tela
-		if (colisao1.length > 0) {	
+		if (colisao1.length > 0) {
+			energiaAtual -= 1;	
 			inimigo1X = parseInt($("#inimigo1").css("left"));
 			inimigo1Y = parseInt($("#inimigo1").css("top"));
 			explosao1(inimigo1X, inimigo1Y);
@@ -238,6 +242,7 @@ function start() {
 		// verifica colisão com o inimigo 2
 		// caso haja colisão, a explosão ira ocorrer e o inimigo 2 será reposicionado na inicio da tela
     if (colisao2.length > 0) {
+			energiaAtual -= 1;
 			inimigo2X = parseInt($("#inimigo2").css("left"));
 			inimigo2Y = parseInt($("#inimigo2").css("top"));
 			explosao2(inimigo2X,inimigo2Y);
@@ -248,6 +253,7 @@ function start() {
 		// verifica se houve colisão entre o disparo do jogador e o inimigo 1
 		// caso haja colisão, a explosão ira ocorrer e o inimigo 1 será reposicionado na inicio da tela
 		if (colisao3.length > 0) {
+			velocidadeInimigo1 += 1;
 			pontosDoJogador += 100;
 			inimigo1X = parseInt($("#inimigo1").css("left"));
 			inimigo1Y = parseInt($("#inimigo1").css("top"));
@@ -255,9 +261,9 @@ function start() {
 			explosao1(inimigo1X,inimigo1Y);
 			$("#disparo").css("left",950);
 				
-			posicaoY = parseInt(Math.random() * 334);
+			const novaPosicaoY = parseInt(Math.random() * 334);
 			$("#inimigo1").css("left",694);
-			$("#inimigo1").css("top",posicaoY);
+			$("#inimigo1").css("top", novaPosicaoY);
 		}
 
 		// verifica se houve colisão entre o disparo do jogador e o inimigo 2
@@ -295,7 +301,26 @@ function start() {
 
 	function placar() {
 		$("#placar").html("<h2> Pontos: " + pontosDoJogador + " Salvos: " + amigosSalvos + " Perdidos: " + amigosPerdidos + "</h2>");
-	} 
+	}
+
+	// função que gerencia a imagem de energia que será mostrada no jogo
+	function energia() {
+		if (energiaAtual === 3) {
+			$("#energia").css("background-image", "url(imgs/energia3.png)");
+		}
+
+		if (energiaAtual === 2) {
+			$("#energia").css("background-image", "url(imgs/energia2.png)");
+		}
+
+		if (energiaAtual === 1) {
+			$("#energia").css("background-image", "url(imgs/energia1.png)");
+		}
+
+		if (energiaAtual === 0) {
+			$("#energia").css("background-image", "url(imgs/energia0.png)");
+		}
+	}
 
 	// game Loop
 	// esse timer irá executar as função que movimentam o jogo a cada 30 milissegundos
@@ -309,5 +334,6 @@ function start() {
 		moveamigo();
 		colisao();
 		placar();
+		energia();
 	}
 } // fim da função start
