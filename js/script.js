@@ -320,7 +320,41 @@ function start() {
 		$("#placar").html("<h2> Pontos: " + pontosDoJogador + " Salvos: " + amigosSalvos + " Perdidos: " + amigosPerdidos + "</h2>");
 	}
 
-	// função que gerencia a imagem de energia que será mostrada no jogo
+	// game Loop
+	// esse timer irá executar as função que movimentam o jogo a cada 30 milissegundos
+	jogo.timer = setInterval(loop, 30);
+
+	function loop() {
+		movefundo();
+		movejogador();
+		moveinimigo1();
+		moveinimigo2();
+		moveamigo();
+		colisao();
+		placar();
+		energia();
+	}
+
+	// função GAME OVER
+	function gameOver() {
+		fimdejogo = true;
+		musica.pause();
+		somGameover.play();
+		
+		window.clearInterval(jogo.timer);
+		jogo.timer = null;
+		
+		$("#jogador").remove();
+		$("#inimigo1").remove();
+		$("#inimigo2").remove();
+		$("#amigo").remove();
+		
+		$("#fundoGame").append("<div id='fim'></div>");
+		
+		$("#fim").html("<h1> Game Over </h1><p>Sua pontuação foi: " + pontosDoJogador + "</p>" + "<div id='reinicia' onClick=reiniciaJogo()><h3>Jogar Novamente</h3></div>");
+	}
+
+		// função que gerencia a imagem de energia que será mostrada no jogo
 	function energia() {
 		if (energiaAtual === 3) {
 			$("#energia").css("background-image", "url(imgs/energia3.png)");
@@ -336,21 +370,7 @@ function start() {
 
 		if (energiaAtual === 0) {
 			$("#energia").css("background-image", "url(imgs/energia0.png)");
+			gameOver();
 		}
-	}
-
-	// game Loop
-	// esse timer irá executar as função que movimentam o jogo a cada 30 milissegundos
-	jogo.timer = setInterval(loop, 30);
-
-	function loop() {
-		movefundo();
-		movejogador();
-		moveinimigo1();
-		moveinimigo2();
-		moveamigo();
-		colisao();
-		placar();
-		energia();
 	}
 } // fim da função start
