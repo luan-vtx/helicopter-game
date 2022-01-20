@@ -28,9 +28,20 @@ function start() {
 
 	let energiaAtual = 3;
 
+	let somDisparo=document.getElementById("somDisparo");
+	let somExplosao=document.getElementById("somExplosao");
+	let musica=document.getElementById("musica");
+	let somGameover=document.getElementById("somGameover");
+	let somPerdido=document.getElementById("somPerdido");
+	let somResgate=document.getElementById("somResgate");
+
 	jogo.pressionou = [];
 
-	//Verifica se o usuário pressionou alguma tecla	
+	// música de fundo em loop
+	musica.addEventListener("ended", function(){ musica.currentTime = 0; musica.play(); }, false);
+	musica.play();
+
+	// verifica se o usuário pressionou alguma tecla	
 	$(document).keydown(function(e){
 		jogo.pressionou[e.which] = true;
 	});
@@ -39,7 +50,7 @@ function start() {
 		jogo.pressionou[e.which] = false;
 	});
 
-	//Função que movimenta a imagem de fundo do jogo
+	// função que movimenta a imagem de fundo do jogo
 	function movefundo() {
 		esquerda = parseInt($("#fundoGame").css("background-position"));
 		$("#fundoGame").css("background-position", esquerda - 5);
@@ -111,6 +122,7 @@ function start() {
 	// função que realiza o disparo do jogador
 	function disparo() {
 		if (podeAtirar === true) {
+			somDisparo.play();
 			podeAtirar = false;
 			posicaoTopoDoJogador = parseInt($("#jogador").css("top"))
 			posicaoXDoJogador = parseInt($("#jogador").css("left"))
@@ -141,6 +153,7 @@ function start() {
 
 	// funcao que realiza o efeito de explosão quando o jogador colide com o inimigo 1 (o helicoptero)
 	function explosao1(inimigo1X,inimigo1Y) {
+		somExplosao.play();
 		$("#fundoGame").append("<div id='explosao1'></div");
 		$("#explosao1").css("background-image", "url(imgs/explosao.png)");
 		var div=$("#explosao1");
@@ -158,6 +171,7 @@ function start() {
 
 	// funcao que realiza o efeito de explosão quando o jogador colide com o inimigo 2 (o caminhão)
 	function explosao2(inimigo2X,inimigo2Y) {
+		somExplosao.play();
 		$("#fundoGame").append("<div id='explosao2'></div");
 		$("#explosao2").css("background-image", "url(imgs/explosao.png)");
 
@@ -177,6 +191,7 @@ function start() {
 
 	// funcao que realiza o efeito de explosão quando o amigo colide com o inimigo 2 (o caminhão)
 	function explosao3(amigoX, amigoY) {
+		somPerdido.play();
 		$("#fundoGame").append("<div id='explosao3' class='anima4'></div");
 		$("#explosao3").css("top",amigoY);
 		$("#explosao3").css("left",amigoX);
@@ -262,12 +277,6 @@ function start() {
 			explosao1(inimigo1X,inimigo1Y);
 			$("#disparo").css("left", 950);
 
-			// if (true) {
-			// 	posicaoYDoInimigo1 = parseInt(Math.random() * 350);
-			// 	$("#inimigo1").css("left", 694);
-			// 	$("#inimigo1").css("top", posicaoYDoInimigo1);
-			// }
-
 			posicaoYDoInimigo1 = parseInt(Math.random() * 350);
 			$("#inimigo1").css("left", 694);
 			$("#inimigo1").css("top", posicaoYDoInimigo1);
@@ -288,6 +297,7 @@ function start() {
 
 		// verifica se houve colisao do jogador com o amigo e o "resgata" (remove-o da tela)
 		if (colisao5.length > 0) {
+			somResgate.play();
 			amigosSalvos += 1;
 			reposicionaAmigo();
 			$("#amigo").remove();
