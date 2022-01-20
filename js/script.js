@@ -370,7 +370,7 @@ function start() {
       "<h1> Game Over </h1><p>Sua pontuação foi: " +
         pontosDoJogador +
         "</p>" +
-        "<div id='reinicia' onClick=reiniciaJogo()><h3>Jogar Novamente</h3></div>"
+        "<button id='reinicia' onClick=reiniciaJogo()>Jogar Novamente</button>"
     );
   }
 
@@ -394,3 +394,10 @@ function start() {
     }
   }
 } // fim da função start
+
+// função que irá reiniciar o jogo
+function reiniciaJogo() {
+  somGameover.pause();
+  $("#fim").remove();
+  start();
+}
